@@ -1,6 +1,3 @@
 #!/usr/bin/env bash
-#comment
-echo "Active Internet connections (only servers)"
-netstat -tulnp 2>/dev/null | awk 'NR<3 || /LISTEN/ || /^udp/'
-echo -e "\nActive UNIX domain sockets (only servers)"
-netstat -xlp 2>/dev/null | awk 'NR<2 || /LISTEN/'
+# List only listening TCP and UDP sockets with their PID and program name
+netstat -lp

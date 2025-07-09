@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Check if exactly one argument is given
+if [ $# -ne 1 ]; then
+    # If not, show how to use the script
+    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+    exit 1  # Exit the script with error code 1
+fi
+
+# Store the first argument (IP address) in a variable
+ip_address=$1
+
+# Ping the IP address 5 times
+ping -c 5 "$ip_address"
