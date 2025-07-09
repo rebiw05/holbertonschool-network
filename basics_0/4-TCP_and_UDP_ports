@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Display listening TCP and UDP ports
-echo "Active Internet connections (only servers)"
-ss -tulnp | awk 'NR==1 || /LISTEN/ || /^udp/'
-
-# Display listening UNIX domain sockets
-echo -e "\nActive UNIX domain sockets (only servers)"
-ss -xlp | awk 'NR==1 || /LISTEN/'
+#comment
+netstat -tulnp 2>/dev/null | awk 'NR<3 || /LISTEN/ || /^udp/'
+netstat -xlp 2>/dev/null | awk 'NR<2 || /LISTEN/'
