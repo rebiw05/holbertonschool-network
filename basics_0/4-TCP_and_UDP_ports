@@ -1,3 +1,35 @@
 #!/usr/bin/env bash
 #comment
-netstat -tulnp
+echo "Active Internet connections (only servers)"
+# -l: show only listening sockets
+# -t: show TCP connections
+# -u: show UDP connections
+# -p: show PID and program name for sockets
+# -n: don't resolve service names (show port numbers)
+# grep LISTEN: explicitly filter for LISTEN state for TCP
+sudo netstat -lntup | awk '
+BEGIN {
+    print "Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name"
+}
+/tcp/ {
+    if ($6 == "LISTEN") {
+        print $1, $2, $3, $4, $5, $6, $7
+    }
+}
+/udp/ {
+    print $1, $2, $3, $4, $5, "", $6
+}'
+
+echo "Active UNIX domain sockets (only servers)"
+# -l: show only listening sockets
+# -x: show Unix domain sockets
+# -p: show PID and program name for sockets
+sudo netstat -lxp | awk '
+BEGIN {
+    print "Proto RefCnt Flags       Type       State         I-Node   PID/Program name    Path"
+}
+/unix/ {
+    if ($2 == "2" && $3 ~ /ACC/ && $5 == "LISTENING") {
+        print $1, $2, $3, $4, $5, $6, $7, $8
+    }
+}'
